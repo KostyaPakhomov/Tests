@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST1</title>
+</head>
+<body>
+
+    <input type='button' value='Сортировать по возростанию' onclick='up( )'>
+    <br><br>
+    <input type='button' value='Сортировать по убыванию' onclick='down( )'>
+
+<div id="mass" style="margin-top: 20px; color: red; font-size: xx-large"></div>
+
+<script>
+    "use strict";
+
+    let num  = prompt('Введите числа через пробел', '15 25 37');
+
+    function question() {
+        while((!/^[0-9\s]+$/.test(num))) {
+            num = prompt('Введите любой набор цифр через пробел');
+        }
+    }
+    question();
+
+    let allNum = num.split(' ');
+    function arrayUnique(allNum){
+        return allNum.filter((e,i,a)=>a.indexOf(e)==i)
+    }
+
+    let newArr = arrayUnique(allNum);
+        console.log(newArr);
+
+    function showArr() {
+        let arrElem = document.getElementById('mass');
+        arrElem.innerHTML = newArr;
+    }
+    showArr();
+
+    function down() {
+        newArr.sort((a, b) => b - a);
+        console.log(newArr);
+        showArr();
+    }
+
+    function up() {
+        newArr.sort((a, b) => a - b);
+        console.log(newArr);
+        showArr();
+    }
+</script>
+
+</body>
+</html>

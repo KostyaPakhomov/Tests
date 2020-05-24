@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST3</title>
+</head>
+<body>
+<form name='FORM' novalidate>
+    Ваше ФИО: <input type='text' style='width: 300px' name="FIO"><br /><br/>
+    Введите телефон:<input type='text' name='PHONE'><br />
+    (строго в формате +375-зона-999-99-99, зона может быть 17, 25, 33, 44, 29)<br/><br/>
+    Ваш комментарий:<br />
+<textarea style='width: 200px; height: 50px' name="COM">Напишите что-нибудь здесь</textarea><br/>
+    <input type='submit' value='Отправить'>
+</form>
+
+
+<script>
+
+    "use strict";
+
+    var formElement=document.forms.FORM;
+    formElement.addEventListener('submit',validateTelForm,false);
+
+    function validateTelForm(EO) {
+        EO=EO||window.event;
+
+        try {
+            var telRE=/^\+375\-(?:17|25|33|44|29)\-\d{3}\-\d{2}\-\d{2}$/;
+            var fioRE=/[A-Za-z|А-Яа-я]|\s/;
+            var comRE=/[A-Za-z|А-Яа-я0-9_]|\s/;
+            var formElement=document.forms.FORM;
+            var fioElement = formElement.elements.FIO;
+            var fioValue=fioElement.value;
+            var telElement=formElement.elements.PHONE;
+            var telValue=telElement.value;
+            var comElement=formElement.elements.COM;
+            var comValue=comElement.value;
+
+            if ( !fioRE.test(fioValue) ) {
+                alert('Введите пожалуйста своё ФИО!');
+                fioElement.focus();
+                EO.preventDefault();
+                return;
+            }
+
+            if ( !telRE.test(telValue) ) {
+                alert('Введите пожалуйста телефон строго в указанном формате!');
+                telElement.focus();
+                EO.preventDefault();
+                return;
+            }
+
+            if ( !comRE.test(comValue) ) {
+                alert('Напишите пожалуйста какой-нибудь комментарий!');
+                comElement.focus();
+                EO.preventDefault();
+                return;
+            }
+
+        }
+        catch ( err ) {
+            EO.preventDefault();
+        }
+
+    }
+
+</script>
+</body>
+</html>

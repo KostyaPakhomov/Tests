@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST2</title>
+</head>
+<body style="background-color:lightblue">
+<div id="flag"></div>
+
+<script>
+
+    "use strict";
+    var rows_count = 60;
+    var columns_count = 80;
+    var i,j;
+    var str = "";
+    function tab(symbol) {
+        str += '<table class = "tbl">';
+        for (i = 0; i < rows_count; i++) {
+            if (i<rows_count/3){str += '<tr style = "color:white">'}
+            else if (i<(rows_count*2/3)){str += '<tr style = "color:blue">'}
+            else {str += '<tr style = "color:red">'};
+
+            for (j = 0; j < columns_count; j++) {
+                str += '<td>' + symbol + '</td>'
+            }
+            str += '</tr>';
+        }
+        str += '</table>';
+        var newTab = document.getElementById('flag');
+        newTab.innerHTML = str;
+    }
+    tab("O");
+
+
+
+</script>
+
+</body>
+</html>

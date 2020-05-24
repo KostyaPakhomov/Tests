@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST5</title>
+</head>
+<body>
+<form name='FORM' novalidate>
+    Ваше ФИО: <input type='text' style='width: 300px' name="FIO"><br /><br/>
+    <label >Введите телефон:<input type='text' name='PHONE' style="margin-right: 5px"><span id="newMob"></span><button id="mob" type="button" onclick="addPhone()">+</button><br />
+        (строго в формате +375-зона-999-99-99, зона может быть 17, 25, 33, 44, 29)</label><br/><br/>
+    Ваш комментарий:<br />
+    <textarea style='width: 200px; height: 50px' name="COM">Напишите что-нибудь здесь</textarea><br/>
+    <input type='button' onclick="addPerson()" value='Создать человека'>
+    <input id="subm" type="button" onclick="person.send()" value='Send'>
+</form>
+
+
+<script>
+
+    "use strict";
+
+    function addPhone(){
+        var numTel = document.getElementById('newMob');
+        var newTagElement1=document.createElement('span');
+        var str = '';
+        str += '<span>';
+        str += '<input type="text" name="PHONE" style="margin-right:5px">';
+        str += '</span>';
+        newTagElement1.innerHTML = str;
+        numTel.appendChild(newTagElement1);
+    }
+
+    var formElement=document.forms.FORM;
+    formElement.addEventListener('submit',validateTelForm,false);
+
+    function validateTelForm(EO) {
+        EO=EO||window.event;
+
+        try {
+            var telRE=/^\+375\-(?:17|25|33|44|29)\-\d{3}\-\d{2}\-\d{2}$/;
+            var fioRE=/[A-Za-z|А-Яа-я]|\s/;
+            var comRE=/[A-Za-z|А-Яа-я0-9_]|\s/;
+            var formElement=document.forms.FORM;
+            var fioElement = formElement.elements.FIO;
+            var fioValue=fioElement.value;
+            var telElement=formElement.elements.PHONE;
+            var telValue=telElement.value;
+            var comElement=formElement.elements.COM;
+            var comValue=comElement.value;
+
+            if ( !fioRE.test(fioValue) ) {
+                alert('Введите пожалуйста своё ФИО!');
+                fioElement.focus();
+                EO.preventDefault();
+                return;
+            }
+
+            for (let i = 0; i < telValue.length; i++) {
+                if (!telRE.test(telValue || telValue[i])) {
+                    alert('Введите пожалуйста телефон строго в указанном формате!');
+                    telElement.focus();
+                    EO.preventDefault();
+                    return;
+                }
+            }
+            if ( !comRE.test(comValue) ) {
+                alert('Напишите пожалуйста какой-нибудь комментарий!');
+                comElement.focus();
+                EO.preventDefault();
+                return;
+            }
+
+        }
+        catch ( err ) {
+            EO.preventDefault();
+        }
+
+    }
+
+    function Person(_fio,_tel,_comment) {
+        this.fio = _fio;
+        this.tel = _tel;
+        this.comment = _comment;
+        this.inp=function () {
+            var fioNew = formElement.elements.FIO;
+            fioNew.value = this.fio;
+            var telNew = formElement.elements.PHONE;
+            telNew.value = this.tel;
+            var commNew = formElement.elements.COM;
+            commNew.value = this.comment;
+        }
+        //setInterval(this.send,5000);
+        this.send = function () {
+            person.inp();
+            setTimeout('document.FORM.submit()',3000);
+        }
+    }
+
+    var per = [];
+    var person;
+    function addPerson() {
+        var name = prompt("Ваше ФИО");
+        var tnum = prompt("Ваш телефон (в формате +375-(зона)-ххх-хх-хх");
+        var com = prompt("Ваш комментарий");
+        person = new Person(name, tnum, com);
+        per.push(person);
+    }
+
+
+
+</script>
+</body>
+</html>
